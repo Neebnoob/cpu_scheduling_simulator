@@ -1,0 +1,123 @@
+Progress Report:
+
+*Mark these progress points off in some way as they are implemented and finished so we can keep track of what needs to be done*
+
+2.1
+
+CPU bursts
+IO bursts
+CPU bound
+I/O bound
+
+scheduling cases:
+
+System interrupt / wait for I/O.... Change from RUNNING to WAITING
+Preemption scheduling ............. Change from RUNNING to READY
+I/O devices are ready ............. Change from WAITING to READY
+The process terminates
+
+2.2
+
+First come first server
+Shortest job first
+Priority scheduling
+
+2.3
+
+CPU utilization
+Throughput
+Turnaround time
+Waiting time
+Response time
+
+3.1
+
+Some sort of visualization for:
+
+A CPU
+A ready queue
+An I/O device
+An I/O queue
+
+3.2.1
+
+Simulation mode
+Simulation unit time
+Quantum (time slice)
+
+3.2.2
+
+name
+s (arival time)
+p (priority level)
+C (CPU burst time)
+I (IO burst time)
+
+3.3
+
+Process control block (PCB)
+PID
+State
+New
+Ready
+Running
+Waiting
+Terminated
+Arival time
+Finish time
+Turnaround time
+Wait time
+IO wait time
+Priority
+CPU burst time
+I/O burst time
+CUrrent execution state
+Which CPU / IO burst has been done
+
+3.4
+
+Scheduler
+
+3.5
+
+Main program
+
+3.5.1
+
+GUI mode
+2D graphics
+simulation steps
+
+3.5.2
+
+Simulation start
+Simulation pause
+Simulation resume
+Current state of four components
+Process information
+CPU utilization
+Average turnaround time
+Average wait time
+Throughput
+
+Screen Message / Log to output file:
+
+New process created or in ready queue
+Process dispatched
+Process interrupted
+Process preempted
+Process completes I/O
+Process terminates
+
+3.6
+
+Test different scenarios
+System preformance metrics collected
+Draw charts
+Write a report
+
+3.7
+*Extra Credit*
+Additional scheduling algorithm
+Multiprocessor / multiple I/O 
+Support multi-thread
