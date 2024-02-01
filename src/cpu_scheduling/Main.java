@@ -8,13 +8,11 @@ import java.util.Scanner;
 public class Main {
 
 	public static void main(String[] args) {
+		
 		//Testing
-		//new ProjectGUI();
-		load("ScenarioFileOne");
+		new ProjectGUI();
+		ArrayList<Processes> processesList = load("ScenarioFileOne");
 	}
-	
-	//input file use delimiter
-	//use scanner class
 	
 	//loader to load test file into an array list of process objects
 	public static ArrayList<Processes> load(String location) {
@@ -50,6 +48,12 @@ public class Main {
 		}
 		
 		return processesList;
+		
+	}
+	
+	public static void sortProcessesList(ArrayList<Processes> processesList) {
+		
+		
 		
 	}
 
