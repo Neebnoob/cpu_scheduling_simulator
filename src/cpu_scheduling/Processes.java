@@ -1,5 +1,7 @@
 package cpu_scheduling;
 
+import java.util.ArrayList;
+
 //processes class
 
 public class Processes {
@@ -8,18 +10,24 @@ public class Processes {
 	String name;
 	int arrivalTime;
 	int priorityLevel;
-	Node head;
+	ArrayList<Integer> cpuBursts;
+	ArrayList<Integer> ioBursts;
+	int tracker;
 	
 	//constructor
 	public Processes(String name, int arrivalTime, int priorityLevel) {
 		this.name =  name;
 		this.arrivalTime = arrivalTime;
 		this.priorityLevel = priorityLevel;
+		this.cpuBursts = new ArrayList<Integer>();
+		this.ioBursts = new ArrayList<Integer>();
+		this.tracker = 0;
+	}
+	
+	@Override
+	public String toString() {
+		return name + " - " + arrivalTime + " - " + priorityLevel + " - CPU Bursts: " + cpuBursts + " - IO Bursts: " + ioBursts;
 		
-		//head is a place holder for the start of our process times linked list
-		//the nodes in this list will alternate starting with CPU and then I/O
-		//but will always end on a CPU node
-		this.head = new Node(-1);
 	}
 
 }
