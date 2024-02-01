@@ -10,8 +10,8 @@ public class Main {
 	public static void main(String[] args) {
 		
 		//Testing
-		new ProjectGUI();
 		ArrayList<Processes> processesList = load("ScenarioFileOne");
+		new ProjectGUI();
 	}
 	
 	//loader to load test file into an array list of process objects

@@ -72,7 +72,7 @@ public class Processes {
 		return ioBurstsClean;
 	}
 	
-	//setters and getters for start, finish, wait, waitIO, and status
+	//setters and getters for start, finish, wait, waitIO, status, and CPUFlag
 	
 	public int getStartTime() {
 		return startTime;
@@ -113,6 +113,15 @@ public class Processes {
 	public void setStatus(String status) {
 		this.status = status;
 	}
+	
+	public Boolean getCPUFlag() {
+		return cpuFlag;
+	}
+	
+	public void setCPUFlag(Boolean cpuFlag) {
+		this.cpuFlag = cpuFlag;
+	}
+	
 	//returns current burst that is needed at CPU
 	public int getCurrentCPUBurst() {
 		return cpuBursts.get(this.tracker);
