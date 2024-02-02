@@ -16,37 +16,33 @@ public class ProjectGUI extends JFrame{
 		setTitle("CPU Scheduling Simulator");
 		setSize(400, 400);
 		
-		//creation of top JPanel
+		//creation of UI elements
 		JPanel topPanel = new JPanel();
+		JButton loadFile = new JButton(); //"Load..."
+		JLabel selectAlgo = new JLabel(); //"Select algorithm: "
+		JComboBox<String> algoChoices = new JComboBox<String>(); // String[] choices = {"First Come First Server", "Smallest Job First", "Priority Scheduling"};
+		JLabel quantum = new JLabel(); //"Quantum: "
+		JTextField quantumInput = new JTextField();
+		JButton startPauseButton = new JButton(); //"►"
+		JLabel startPause = new JLabel(); //"Start/Pause"
+		JLabel speed = new JLabel(); //"Speed: "
+		JComboBox<String> speedChoices = new JComboBox<String>(); //String[] choicesTwo = {"1fps", "2fps", "3fps"};
+		JButton nextButton = new JButton(); //"Next ->"
+		JLabel sysTime = new JLabel();
+		JLabel throughput = new JLabel();
+		JLabel avgTurn = new JLabel();
+		JLabel avgWait = new JLabel();
 		
-		//select file button
-		JButton loadFile = new JButton("Load...");
-		loadFile.setPreferredSize(new Dimension(65,20));
 		
-		JLabel selectAlgo = new JLabel("Select algorithm: ");
+		/*
+		Create a 2 tall and n wide grid that will house a processor 
+		in diagonal corners and houses a queue of processes
+		Or JLabels in a grid layout
 		
-		//select algorithm drop down
-		String[] choices = {"First Come First Server", "Smallest Job First", "Priority Scheduling"};
-		JComboBox<String> algoChoices = new JComboBox<String>(choices);
+		Create methods to move right, left, up down.
+		??? Random color for each process ???
+		*/
 		
-		JLabel quantum = new JLabel("Quantum: ");
-		JTextField quantumInput = new JTextField(2);
-		
-		//start stop button
-		JButton startPauseButton = new JButton("►");
-		startPauseButton.setPreferredSize(new Dimension(20, 20));
-		JLabel startPause = new JLabel("Start/Pause");
-		
-		JLabel speed = new JLabel("Speed: ");
-		
-		//speed drop down box
-		String[] choicesTwo = {"1fps", "2fps", "3fps"};
-		JComboBox<String> speedChoices = new JComboBox<String>(choicesTwo);
-		
-		JButton nextButton = new JButton("Next ->");
-		nextButton.setPreferredSize(new Dimension(65,20));
-		
-		//adding elements to panel
 		topPanel.add(loadFile);
 		topPanel.add(selectAlgo);
 		topPanel.add(algoChoices); 
@@ -58,7 +54,6 @@ public class ProjectGUI extends JFrame{
 		topPanel.add(speedChoices);
 		topPanel.add(nextButton);
 		this.getContentPane().add(topPanel);
-		
 		
 		//last things to be executed
 		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
