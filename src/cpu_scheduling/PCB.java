@@ -1,7 +1,5 @@
 package cpu_scheduling;
 
-import java.util.ArrayList;
-
 //processes class 3.2
 
 public class PCB {
@@ -12,9 +10,9 @@ public class PCB {
     String name;
 
     // contructor
-    public PCB(Processes currentProcess, String status, String name){
-        this.currentProcess = currentProcess;
-        this.status = status;
+    public PCB(String name){
+        this.currentProcess = null;
+        this.status = "Available";
         this.name = name;
     }
 
