@@ -11,6 +11,11 @@ public class Main {
 		
 		//Testing
 		ArrayList<Processes> processesList = load("ScenarioFileOne");
+		
+		for (int i = 0; i < processesList.size(); i++) {
+			System.out.println(processesList.get(i));
+		}
+		
 		new ProjectGUI();
 	}
 	
@@ -39,6 +44,7 @@ public class Main {
 				}
 				
 				processesList.add(temp);
+				
 			}
 			//close scanner after reading simulation file
 			sc.close();
