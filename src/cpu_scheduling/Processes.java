@@ -65,6 +65,9 @@ public class Processes {
 	
 	//returns nice list of IO bursts
 	public String getIOBursts() {
+		if (this.ioBursts.size() <= 0) {
+			return "";
+		}
 		String ioBurstsClean = Integer.toString(this.ioBursts.get(0));
 		
 		for (int i = 1; i < ioBursts.size(); i++) {

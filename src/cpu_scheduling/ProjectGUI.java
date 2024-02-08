@@ -1,6 +1,8 @@
 package cpu_scheduling;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.awt.event.ActionEvent;
@@ -11,15 +13,14 @@ import java.awt.Insets;
 
 //class containing the projects UI
 
+//Todo
+//find a way to create a loop that will increment at set speed and can be stopped and started at any time
+
 public class ProjectGUI extends JFrame{
-	
-	//Todo
-	//implement a method to upload out Processes list to the table 
-	
-	//variables
-	private JTable table;
 	private Boolean start;
 	private Simulation sim;
+	private JTable table;
+	DefaultTableModel processesDisplay;
 	
 	//constructor
 	public ProjectGUI() {
@@ -33,16 +34,16 @@ public class ProjectGUI extends JFrame{
 		
 		JPanel panel = new JPanel();
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{40, 31, 26, 0, 0, 53, 17, 0, 32, 0, 0, 0, 34, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel.rowHeights = new int[]{29, 0, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.columnWidths = new int[]{40, 88, 26, 39, 0, 53, 17, 0, 32, 0, 0, 0, 34, 23, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{29, 0, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		JButton loadFile = new JButton(); //"Load..."
 		loadFile.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
 		loadFile.setText("Load...");
 		GridBagConstraints gbc_loadFile = new GridBagConstraints();
-		gbc_loadFile.anchor = GridBagConstraints.NORTHWEST;
+		gbc_loadFile.anchor = GridBagConstraints.NORTHEAST;
 		gbc_loadFile.insets = new Insets(0, 0, 5, 5);
 		gbc_loadFile.gridx = 1;
 		gbc_loadFile.gridy = 0;
@@ -55,19 +56,22 @@ public class ProjectGUI extends JFrame{
 				
 				ArrayList<Processes> processesList = sim.getSimulationFile();
 				
+				processesDisplay.setRowCount(0);
+				
 				for (int i = 0; i < processesList.size(); i++) {
-					System.out.println(processesList.get(i));
+					Processes temp = processesList.get(i);
+					processesDisplay.addRow(new Object[] {temp.getName(), temp.getArrivalTime(), temp.getPriorityLevel(), temp.getCPUBursts(), temp.getIOBursts(), temp.getStartTime(), temp.getFinishTime(), temp.getWaitTime(), temp.getWaitIOTime(), temp.getStatus()});
 				}
+	
 			}
 		});
 		JLabel selectAlgo = new JLabel(); //"Select algorithm: "
 		selectAlgo.setFont(new Font("Lucida Grande", Font.PLAIN, 10));
 		selectAlgo.setText("Select Algorithim: ");
 		GridBagConstraints gbc_selectAlgo = new GridBagConstraints();
-		gbc_selectAlgo.gridwidth = 3;
 		gbc_selectAlgo.anchor = GridBagConstraints.EAST;
 		gbc_selectAlgo.insets = new Insets(0, 0, 5, 5);
-		gbc_selectAlgo.gridx = 2;
+		gbc_selectAlgo.gridx = 4;
 		gbc_selectAlgo.gridy = 0;
 		panel.add(selectAlgo, gbc_selectAlgo);
 		JComboBox<String> algoChoices = new JComboBox<String>(); // String[] choices = {"First Come First Server", "Smallest Job First", "Priority Scheduling"};
@@ -112,8 +116,12 @@ public class ProjectGUI extends JFrame{
 		startPauseButton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				updateStart();
-				System.out.println(getStart());
+				if (getStart() == false) {
+					//
+				} else {
+					updateStart();
+				}
+				
 			}
 		});
 		startPauseButton.setFont(new Font("Lucida Grande", Font.PLAIN, 11));
@@ -153,7 +161,7 @@ public class ProjectGUI extends JFrame{
 		GridBagConstraints gbc_nextButton = new GridBagConstraints();
 		gbc_nextButton.insets = new Insets(0, 0, 5, 0);
 		gbc_nextButton.anchor = GridBagConstraints.NORTHWEST;
-		gbc_nextButton.gridwidth = 2;
+		gbc_nextButton.gridwidth = 3;
 		gbc_nextButton.gridx = 22;
 		gbc_nextButton.gridy = 0;
 		panel.add(nextButton, gbc_nextButton);
@@ -170,7 +178,6 @@ public class ProjectGUI extends JFrame{
 		JLabel sytemTimeLabel = new JLabel("0");
 		sytemTimeLabel.setFont(new Font("Lucida Grande", Font.PLAIN, 14));
 		GridBagConstraints gbc_sytemTimeLabel = new GridBagConstraints();
-		gbc_sytemTimeLabel.anchor = GridBagConstraints.WEST;
 		gbc_sytemTimeLabel.insets = new Insets(0, 0, 5, 5);
 		gbc_sytemTimeLabel.gridx = 2;
 		gbc_sytemTimeLabel.gridy = 2;
@@ -217,7 +224,7 @@ public class ProjectGUI extends JFrame{
 		GridBagConstraints gbc_lblNewLabel_6 = new GridBagConstraints();
 		gbc_lblNewLabel_6.anchor = GridBagConstraints.EAST;
 		gbc_lblNewLabel_6.insets = new Insets(0, 0, 5, 5);
-		gbc_lblNewLabel_6.gridx = 10;
+		gbc_lblNewLabel_6.gridx = 11;
 		gbc_lblNewLabel_6.gridy = 2;
 		panel.add(lblNewLabel_6, gbc_lblNewLabel_6);
 		
@@ -226,33 +233,50 @@ public class ProjectGUI extends JFrame{
 		GridBagConstraints gbc_averageWaitLabel = new GridBagConstraints();
 		gbc_averageWaitLabel.anchor = GridBagConstraints.WEST;
 		gbc_averageWaitLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_averageWaitLabel.gridx = 11;
+		gbc_averageWaitLabel.gridx = 12;
 		gbc_averageWaitLabel.gridy = 2;
 		panel.add(averageWaitLabel, gbc_averageWaitLabel);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.gridheight = 7;
-		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
-		gbc_scrollPane.gridwidth = 5;
+		gbc_scrollPane.gridheight = 10;
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 0);
+		gbc_scrollPane.gridwidth = 10;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 18;
+		gbc_scrollPane.gridx = 15;
 		gbc_scrollPane.gridy = 2;
 		panel.add(scrollPane, gbc_scrollPane);
 		
-		table = new JTable();
-		GridBagConstraints gbc_table = new GridBagConstraints();
-		gbc_table.insets = new Insets(0, 0, 0, 5);
-		gbc_table.gridwidth = 22;
-		gbc_table.fill = GridBagConstraints.BOTH;
-		gbc_table.gridx = 1;
-		gbc_table.gridy = 15;
-		panel.add(table, gbc_table);
-		
 		this.getContentPane().add(panel);
 		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		GridBagConstraints gbc_scrollPane_1 = new GridBagConstraints();
+		gbc_scrollPane_1.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane_1.gridx = 1;
+		gbc_scrollPane_1.gridy = 13;
+		gbc_scrollPane_1.gridwidth = 24;
+		gbc_scrollPane_1.gridheight = 6;
+		panel.add(scrollPane_1, gbc_scrollPane_1);
+		
+		this.processesDisplay = new DefaultTableModel() { 
+            String[] process = {"ID", "Arrival", "Priority", "CPU Bursts", "IO Bursts", "Start Time", "Finish Time", "Wait Time", "Wait IO Times", "Status"}; 
+
+            @Override 
+            public int getColumnCount() { 
+                return process.length; 
+            } 
+
+            @Override 
+            public String getColumnName(int index) { 
+                return process[index]; 
+            } 
+        }; 
+		
+		table = new JTable(processesDisplay);
+		scrollPane_1.setViewportView(table);
+		
 		//last things to be executed
-		setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
+		//setExtendedState(getExtendedState() | JFrame.MAXIMIZED_BOTH);
 		setVisible(true);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
@@ -263,7 +287,7 @@ public class ProjectGUI extends JFrame{
 		return this.start;
 	}
 
-	public void updateStart() {
+	private void updateStart() {
 		if (getStart()) {
 			this.start = false;
 		} else {

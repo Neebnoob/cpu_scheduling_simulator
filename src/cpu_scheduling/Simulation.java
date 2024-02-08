@@ -8,7 +8,7 @@ import java.util.Scanner;
 public class Simulation {
 	
 	//Todo
-	//sorting method to sort array list by start time (private method)
+	//
 	
 	//variables
 	ArrayList<Processes> processesList;
@@ -25,6 +25,7 @@ public class Simulation {
 	public void loadSimulationFile(String location) {
 		
 		ArrayList<Processes> tempProcessesList = new ArrayList<Processes>();
+		resetSim();
 		
 		try {
 			FileInputStream fis = new FileInputStream(location);
@@ -56,12 +57,58 @@ public class Simulation {
 			e.printStackTrace();
 		};
 		
+		quickSort(tempProcessesList, 0, tempProcessesList.size() - 1);
+		
 		this.processesList = tempProcessesList;
 		
 	}
 	
 	public ArrayList<Processes> getSimulationFile() {
 		return this.processesList;
+	}
+	
+	//Quick sort methods
+	private void quickSort(ArrayList<Processes> processesList, int low, int high) {
+		
+		if (low < high) {
+			
+			int pi = partition(processesList, low, high);
+			
+			quickSort(processesList, low, pi - 1);
+			quickSort(processesList, pi + 1, high);
+			
+		}
+	}
+	//Quick sort methods
+	private int partition(ArrayList<Processes> processesList, int low, int high) {
+		
+		int pivot = Integer.valueOf(processesList.get(high).getArrivalTime());
+		
+		int i = low - 1;
+		
+		for (int j = low; j < high - 1; j++) {
+			
+			if (Integer.valueOf(processesList.get(j).getArrivalTime()) < pivot) {
+				
+				i++;
+				swap(processesList, i, j);
+				
+			}
+		}
+		swap(processesList, i + 1, high);
+		return (i + 1);
+	}
+	//Quick sort methods
+	private void swap(ArrayList<Processes> processesList, int i, int j) {
+		Processes temp = processesList.get(i);
+		processesList.set(i, processesList.get(j));
+		processesList.set(j, temp);
+	}
+	//reset simulation when new file is loaded
+	private void resetSim() {
+		this.processesList = new ArrayList<Processes>();
+		this.cpu = new PCB("CPU");
+		this.io = new PCB("IO");
 	}
 
 }
