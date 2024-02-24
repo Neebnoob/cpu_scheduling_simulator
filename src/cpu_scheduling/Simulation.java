@@ -11,21 +11,23 @@ public class Simulation {
 	//
 	
 	//variables
-	ArrayList<Processes> processesList;
-	PCB cpu;
-	PCB io;
+	ArrayList<Processes> processesList; //list of all processes
+	ArrayList<Processes> cpuQueue; //list of all processes in queue to access cpu
+	ArrayList<Processes> ioQueue; //list of all processes in queue to access io
+	int quantum;
+	int speed;
 	
+	//constructor
 	public Simulation() {
 		this.processesList = new ArrayList<Processes>();
-		this.cpu = new PCB("CPU");
-		this.io = new PCB("IO");
+		this.cpuQueue = new ArrayList<Processes>();
+		this.ioQueue = new ArrayList<Processes>();
 	}
 	
 	//loads simulation file and overwrites current list;
 	public void loadSimulationFile(String location) {
 		
 		ArrayList<Processes> tempProcessesList = new ArrayList<Processes>();
-		resetSim();
 		
 		try {
 			FileInputStream fis = new FileInputStream(location);
@@ -66,7 +68,6 @@ public class Simulation {
 	public ArrayList<Processes> getSimulationFile() {
 		return this.processesList;
 	}
-	
 	//Quick sort methods
 	private void quickSort(ArrayList<Processes> processesList, int low, int high) {
 		
@@ -103,12 +104,6 @@ public class Simulation {
 		Processes temp = processesList.get(i);
 		processesList.set(i, processesList.get(j));
 		processesList.set(j, temp);
-	}
-	//reset simulation when new file is loaded
-	private void resetSim() {
-		this.processesList = new ArrayList<Processes>();
-		this.cpu = new PCB("CPU");
-		this.io = new PCB("IO");
 	}
 
 }
