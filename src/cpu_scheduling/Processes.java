@@ -18,6 +18,7 @@ public class Processes {
 	int turnAroundTime;
 	int waitTime;
 	int waitIOTime;
+	int queueTime;
 	String status;
 	Boolean cpuFlag;
 	
@@ -29,11 +30,12 @@ public class Processes {
 		this.cpuBursts = new ArrayList<Integer>();
 		this.ioBursts = new ArrayList<Integer>();
 		this.tracker = 0; //how many cycles have been completed .. correlates to burst array locations
-		this.startTime = 0; //time that process first entered CPU
-		this.finishTime = 0; //time that process finished
+		this.startTime = -1; //time that process first entered CPU
+		this.finishTime = -1; //time that process finished
 		this.turnAroundTime = 0; //finishTime - startTime
 		this.waitTime = 0; //time spent in CPU queue
 		this.waitIOTime = 0; //time spend in IO queue
+		this.queueTime = 0;
 		this.status = "Processing"; //Processing -> Arrived -> Started -> Finished
 		this.cpuFlag = true; //true -> CPU .. false -> IO
 	}
