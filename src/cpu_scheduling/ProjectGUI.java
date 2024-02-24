@@ -43,9 +43,9 @@ public class ProjectGUI extends JFrame{
 		JPanel panel = new JPanel();
 		getContentPane().add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.columnWidths = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 29, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.rowHeights = new int[]{18, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
@@ -93,10 +93,9 @@ public class ProjectGUI extends JFrame{
 		
 		JLabel quantumLabel = new JLabel("Quantum:");
 		GridBagConstraints gbc_quantumLabel = new GridBagConstraints();
-		gbc_quantumLabel.gridwidth = 3;
 		gbc_quantumLabel.anchor = GridBagConstraints.EAST;
 		gbc_quantumLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_quantumLabel.gridx = 17;
+		gbc_quantumLabel.gridx = 15;
 		gbc_quantumLabel.gridy = 1;
 		panel.add(quantumLabel, gbc_quantumLabel);
 		
@@ -105,26 +104,35 @@ public class ProjectGUI extends JFrame{
 		GridBagConstraints gbc_quantumTextField = new GridBagConstraints();
 		gbc_quantumTextField.anchor = GridBagConstraints.WEST;
 		gbc_quantumTextField.insets = new Insets(0, 0, 5, 5);
-		gbc_quantumTextField.gridx = 20;
+		gbc_quantumTextField.gridx = 16;
 		gbc_quantumTextField.gridy = 1;
 		panel.add(quantumTextField, gbc_quantumTextField);
 		quantumTextField.setColumns(3);
 		
-		JLabel startPauseLabel = new JLabel("Start/Pause");
-		GridBagConstraints gbc_startPauseLabel = new GridBagConstraints();
-		gbc_startPauseLabel.gridwidth = 2;
-		gbc_startPauseLabel.anchor = GridBagConstraints.EAST;
-		gbc_startPauseLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_startPauseLabel.gridx = 26;
-		gbc_startPauseLabel.gridy = 1;
-		panel.add(startPauseLabel, gbc_startPauseLabel);
+		JLabel modeLabel = new JLabel("Mode: ");
+		GridBagConstraints gbc_modeLabel = new GridBagConstraints();
+		gbc_modeLabel.insets = new Insets(0, 0, 5, 5);
+		gbc_modeLabel.anchor = GridBagConstraints.EAST;
+		gbc_modeLabel.gridx = 20;
+		gbc_modeLabel.gridy = 1;
+		panel.add(modeLabel, gbc_modeLabel);
 		
-		JButton startPauseButton = new JButton("►");
+		JComboBox<String> modeComboBox = new JComboBox<String>();
+		GridBagConstraints gbc_modeComboBox = new GridBagConstraints();
+		gbc_modeComboBox.gridwidth = 4;
+		gbc_modeComboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_modeComboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_modeComboBox.gridx = 21;
+		gbc_modeComboBox.gridy = 1;
+		modeComboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Automatic", "Manual"}));
+		panel.add(modeComboBox, gbc_modeComboBox);
+		
+		JButton startPauseButton = new JButton("Start");
 		GridBagConstraints gbc_startPauseButton = new GridBagConstraints();
 		gbc_startPauseButton.gridwidth = 2;
 		gbc_startPauseButton.anchor = GridBagConstraints.WEST;
 		gbc_startPauseButton.insets = new Insets(0, 0, 5, 5);
-		gbc_startPauseButton.gridx = 28;
+		gbc_startPauseButton.gridx = 29;
 		gbc_startPauseButton.gridy = 1;
 		panel.add(startPauseButton, gbc_startPauseButton);
 		
@@ -132,7 +140,7 @@ public class ProjectGUI extends JFrame{
 		GridBagConstraints gbc_speedLabel = new GridBagConstraints();
 		gbc_speedLabel.anchor = GridBagConstraints.EAST;
 		gbc_speedLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_speedLabel.gridx = 30;
+		gbc_speedLabel.gridx = 31;
 		gbc_speedLabel.gridy = 1;
 		panel.add(speedLabel, gbc_speedLabel);
 		
@@ -140,7 +148,7 @@ public class ProjectGUI extends JFrame{
 		GridBagConstraints gbc_speedDropDown = new GridBagConstraints();
 		gbc_speedDropDown.anchor = GridBagConstraints.WEST;
 		gbc_speedDropDown.insets = new Insets(0, 0, 5, 5);
-		gbc_speedDropDown.gridx = 31;
+		gbc_speedDropDown.gridx = 32;
 		gbc_speedDropDown.gridy = 1;
 		speedDropDown.setModel(new DefaultComboBoxModel<String>(new String[] {"1 fps", "2 fps", "3 fps"}));
 		panel.add(speedDropDown, gbc_speedDropDown);
@@ -148,7 +156,7 @@ public class ProjectGUI extends JFrame{
 		JButton nextButton = new JButton("Next ->");
 		GridBagConstraints gbc_nextButton = new GridBagConstraints();
 		gbc_nextButton.insets = new Insets(0, 0, 5, 5);
-		gbc_nextButton.gridx = 33;
+		gbc_nextButton.gridx = 34;
 		gbc_nextButton.gridy = 1;
 		panel.add(nextButton, gbc_nextButton);
 		
@@ -188,7 +196,7 @@ public class ProjectGUI extends JFrame{
 		GridBagConstraints gbc_averageTurnLabel = new GridBagConstraints();
 		gbc_averageTurnLabel.anchor = GridBagConstraints.EAST;
 		gbc_averageTurnLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_averageTurnLabel.gridx = 10;
+		gbc_averageTurnLabel.gridx = 12;
 		gbc_averageTurnLabel.gridy = 3;
 		panel.add(averageTurnLabel, gbc_averageTurnLabel);
 		
@@ -196,16 +204,16 @@ public class ProjectGUI extends JFrame{
 		GridBagConstraints gbc_averageTurnNumberLabel = new GridBagConstraints();
 		gbc_averageTurnNumberLabel.fill = GridBagConstraints.HORIZONTAL;
 		gbc_averageTurnNumberLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_averageTurnNumberLabel.gridx = 11;
+		gbc_averageTurnNumberLabel.gridx = 15;
 		gbc_averageTurnNumberLabel.gridy = 3;
 		panel.add(averageTurnNumberLabel, gbc_averageTurnNumberLabel);
 		
 		JLabel averageWaitLabel = new JLabel("AVG Wait:");
 		GridBagConstraints gbc_averageWaitLabel = new GridBagConstraints();
-		gbc_averageWaitLabel.gridwidth = 3;
+		gbc_averageWaitLabel.gridwidth = 2;
 		gbc_averageWaitLabel.anchor = GridBagConstraints.EAST;
 		gbc_averageWaitLabel.insets = new Insets(0, 0, 5, 5);
-		gbc_averageWaitLabel.gridx = 17;
+		gbc_averageWaitLabel.gridx = 16;
 		gbc_averageWaitLabel.gridy = 3;
 		panel.add(averageWaitLabel, gbc_averageWaitLabel);
 		
@@ -222,7 +230,7 @@ public class ProjectGUI extends JFrame{
 		gbc_logScrollPane.gridheight = 11;
 		gbc_logScrollPane.insets = new Insets(0, 0, 5, 5);
 		gbc_logScrollPane.fill = GridBagConstraints.BOTH;
-		gbc_logScrollPane.gridx = 28;
+		gbc_logScrollPane.gridx = 29;
 		gbc_logScrollPane.gridy = 3;
 		panel.add(logScrollPane, gbc_logScrollPane);
 		
@@ -234,7 +242,7 @@ public class ProjectGUI extends JFrame{
 		JPanel cpuQueuePanel = new JPanel();
 		cpuQueuePanel.setBackground(Color.LIGHT_GRAY);
 		GridBagConstraints gbc_cpuQueuePanel = new GridBagConstraints();
-		gbc_cpuQueuePanel.gridwidth = 23;
+		gbc_cpuQueuePanel.gridwidth = 24;
 		gbc_cpuQueuePanel.gridheight = 5;
 		gbc_cpuQueuePanel.insets = new Insets(0, 0, 5, 5);
 		gbc_cpuQueuePanel.fill = GridBagConstraints.BOTH;
@@ -271,7 +279,7 @@ public class ProjectGUI extends JFrame{
 		gbc_cpuPCBPanel.gridheight = 5;
 		gbc_cpuPCBPanel.insets = new Insets(0, 0, 5, 5);
 		gbc_cpuPCBPanel.fill = GridBagConstraints.BOTH;
-		gbc_cpuPCBPanel.gridx = 24;
+		gbc_cpuPCBPanel.gridx = 25;
 		gbc_cpuPCBPanel.gridy = 5;
 		panel.add(cpuPCBPanel, gbc_cpuPCBPanel);
 		GridBagLayout gbl_cpuPCBPanel = new GridBagLayout();
@@ -331,7 +339,7 @@ public class ProjectGUI extends JFrame{
 		JPanel ioQueuePanel = new JPanel();
 		ioQueuePanel.setBackground(Color.GRAY);
 		GridBagConstraints gbc_ioQueuePanel = new GridBagConstraints();
-		gbc_ioQueuePanel.gridwidth = 24;
+		gbc_ioQueuePanel.gridwidth = 25;
 		gbc_ioQueuePanel.gridheight = 5;
 		gbc_ioQueuePanel.insets = new Insets(0, 0, 5, 5);
 		gbc_ioQueuePanel.fill = GridBagConstraints.BOTH;
@@ -355,7 +363,7 @@ public class ProjectGUI extends JFrame{
 		
 		JScrollPane processesScrollPane = new JScrollPane();
 		GridBagConstraints gbc_processesScrollPane = new GridBagConstraints();
-		gbc_processesScrollPane.gridwidth = 33;
+		gbc_processesScrollPane.gridwidth = 34;
 		gbc_processesScrollPane.gridheight = 10;
 		gbc_processesScrollPane.insets = new Insets(0, 0, 5, 5);
 		gbc_processesScrollPane.fill = GridBagConstraints.BOTH;
