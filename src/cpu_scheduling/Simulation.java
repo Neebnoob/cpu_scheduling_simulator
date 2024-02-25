@@ -15,16 +15,14 @@ public abstract class Simulation {
 	ArrayList<Processes> cpuQueue; //list of all processes in queue to access cpu
 	ArrayList<Processes> ioQueue; //list of all processes in queue to access io
 	ArrayList<Processes> finished;
-	int quantum;
 	int systemTime;
 	
 	//constructor
-	public Simulation(ArrayList<Processes> processesList, int quantum) {
+	public Simulation(ArrayList<Processes> processesList) {
 		this.processesList = processesList;
 		this.remainingProcesses = processesList;
 		this.cpuQueue = new ArrayList<Processes>();
 		this.ioQueue = new ArrayList<Processes>();
-		this.quantum = quantum;
 		this.systemTime = 0;
 		this.finished = new ArrayList<Processes>();
 	}
@@ -34,5 +32,7 @@ public abstract class Simulation {
 	public ArrayList<Processes> getRemianingProcessesList() {
 		return remainingProcesses;
 	}
+	
+	public void
 
 }

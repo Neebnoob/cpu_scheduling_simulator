@@ -20,7 +20,7 @@ import java.awt.Insets;
 //class containing the projects UI
 
 //Todo
-//load table with processes information when load file button is pressed
+//
 
 public class ProjectGUI extends JFrame {
 
@@ -30,7 +30,7 @@ public class ProjectGUI extends JFrame {
 	private DefaultTableModel processesDisplay;
 	private JTable table;
 	private ArrayList<Processes> processesList;
-	private Object simulation;
+	private Simulation sim;
 	private Boolean mode; //true = automatic, false = manual
 
 	// constructor
@@ -89,31 +89,7 @@ public class ProjectGUI extends JFrame {
 		gbc_selectAlgoDropDown.gridx = 6;
 		gbc_selectAlgoDropDown.gridy = 1;
 		selectAlgoDropDown.setModel(new DefaultComboBoxModel<String>(
-				new String[] { "First Come First Server", "Shortest Job First", "Priority Scheduling" }));
-		
-		selectAlgoDropDown.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent event) {
-            	
-            	if (getSimulationFile() == null) {
-            		return;
-            	}
-            	
-                JComboBox<?> selectAlgoDropDown = (JComboBox<?>) event.getSource();
-                String selected = (String) selectAlgoDropDown.getSelectedItem();
-                switch(selected) {
-                	case "First Come First Serve":
-                		setSimulation(new FCFS());
-                		break;
-                	case "Shorest Job First":
-                		setSimulation(new SJF());
-                		break;
-                	case "Priority Scheduling":
-                		setSimulation(new Priority(processesList, Integer.parseInt(quantumTextField.getText())));
-                		break;
-                }
-
-            }
-        });
+				new String[] { "First Come First Serve", "Shortest Job First", "Priority Scheduling" }));
 		panel.add(selectAlgoDropDown, gbc_selectAlgoDropDown);
 
 		JLabel quantumLabel = new JLabel("Quantum:");
@@ -184,8 +160,15 @@ public class ProjectGUI extends JFrame {
 		startButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent event) {
             	
-            	//create a for loop if in automatic mode else manual loop
+            	//checks to make sure user has selected a file
+            	if (getSimulationFile() == null) {
+            		//ToDo
+            		//Pop up a window telling user to select a file
+            		return;
+            	}
 
+            	//sets sim variable to desired algorithm object
+            	createSimulationObject((String) selectAlgoDropDown.getSelectedItem());
             }
         });
 		panel.add(startButton, gbc_startButton);
@@ -507,12 +490,12 @@ public class ProjectGUI extends JFrame {
 		return this.processesList;
 	}
 	
-	private void setSimulation(Object simulation) {
-		this.simulation = simulation;
+	private void setSimulation(Simulation sim) {
+		this.sim = sim;
 	}
 	
-	private Object getSimulation() {
-		return this.simulation;
+	private Simulation getSimulation() {
+		return this.sim;
 	}
 	
 	private void setMode(Boolean mode) {
@@ -523,7 +506,7 @@ public class ProjectGUI extends JFrame {
 		return this.mode;
 	}
 
-	// Quick sort methods
+	//Quick sort main method
 	private void quickSort(ArrayList<Processes> processesList, int low, int high) {
 
 		if (low < high) {
@@ -536,7 +519,7 @@ public class ProjectGUI extends JFrame {
 		}
 	}
 
-	// Quick sort methods
+	//Quick sort method to break list into partitions
 	private int partition(ArrayList<Processes> processesList, int low, int high) {
 
 		int pivot = Integer.valueOf(processesList.get(high).getArrivalTime());
@@ -556,14 +539,50 @@ public class ProjectGUI extends JFrame {
 		return (i + 1);
 	}
 
-	// Quick sort methods
+	//Quick sort method to swap positions
 	private void swap(ArrayList<Processes> processesList, int i, int j) {
 		Processes temp = processesList.get(i);
 		processesList.set(i, processesList.get(j));
 		processesList.set(j, temp);
 	}
 	
+	//sets sim variable to desired algorithm object
+	private void createSimulationObject(String selectedAlgo) {
+		
+		//based on selected algorithm in drop down box creates object for that algorithm
+    	switch(selectedAlgo) {
+        	case "First Come First Serve":
+        		setSimulation(new FCFS(processesList));
+        		System.out.println("This hits 1");
+        		break;
+        	case "Shortest Job First":
+        		setSimulation(new SJF(processesList));
+        		System.out.println("This hits 2");
+        		break;
+        	case "Priority Scheduling":
+        		setSimulation(new Priority(processesList));
+        		System.out.println("This hits 3");
+        		break;
+        }
+	}
+	
+	//update JTable row
+	public void updateTableRow(String processID, Processes temp) {
+		for (int i = 0; i < processesDisplay.getRowCount(); i++) {
+			if (processesDisplay.getColumnName(0) == temp.getName()) {
+				processesDisplay.removeRow(i);
+				processesDisplay.addRow(new Object[] {temp.getName(), temp.getArrivalTime(), temp.getPriorityLevel(), temp.getCPUBursts(), temp.getIOBursts(), temp.getStartTime(), temp.getFinishTime(), temp.getWaitTime(), temp.getWaitIOTime(), temp.getStatus()});
+			}
+		}
+	}
+	
+	//scheduling algorithm for automatic mode
 	private void automaticMode() {
+		
+	}
+	
+	//scheduling algorithm for manual mode
+	private void manualMode() {
 		
 	}
 
