@@ -8,8 +8,8 @@ public class FCFS extends Simulation{
 
 	//Picks the first process that was added to the cpuQueue
 	@Override
-	public PCB pickNextProcessCPU() {
-		return cpuQueue.get(0);
+	public int pickNextProcessCPU() {
+		return 0;
 	}
 
 }

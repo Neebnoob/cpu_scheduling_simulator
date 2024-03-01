@@ -51,7 +51,8 @@ public class Console {
 					}
 				}
 			}
-
+			
+			sim.getResults();
 		}
 
 	}
@@ -92,7 +93,7 @@ public class Console {
 					return new FCFS(simFile);
 				else if (algo.toUpperCase().equals("SJF"))
 					return new SJF(simFile);
-				else if (algo.toUpperCase().equals("PRIORITY"))
+				else if (algo.toUpperCase().equals("PRIORITY")) 
 					return new Priority(simFile);
 				else
 					throw new IllegalArgumentException();

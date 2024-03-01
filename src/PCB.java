@@ -49,6 +49,10 @@ public class PCB {
 			return Integer.toString(priorityLevel);
 		}
 		
+		public int getPriority() {
+			return this.priorityLevel;
+		}
+		
 		//returns nice list of CPU bursts
 		public String getCPUBursts() {
 			String cpuBurstsClean = Integer.toString(this.cpuBursts.get(0));

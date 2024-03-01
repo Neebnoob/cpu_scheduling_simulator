@@ -8,14 +8,14 @@ public class SJF extends Simulation{
 
 	//Picks the process with the shortest cpu burst
 	@Override
-	public PCB pickNextProcessCPU() {
-		PCB temp = cpuQueue.get(0);
+	public int pickNextProcessCPU() {
+		int ans = 0;
 		for (int i = 1; i < cpuQueue.size(); i++) {
-			if (cpuQueue.get(i).getCurrentCPUBurst() < temp.getCurrentCPUBurst()) {
-				temp = cpuQueue.get(i);
+			if (cpuQueue.get(i).getCurrentCPUBurst() < cpuQueue.get(ans).getCurrentCPUBurst()) {
+				ans = i;
 			}
 		}
-		return temp;
+		return ans;
 	}
 
 }

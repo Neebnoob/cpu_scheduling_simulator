@@ -8,8 +8,14 @@ public class Priority extends Simulation{
 
 	//Picks the process with the highest priority (0 > 9)
 	@Override
-	public PCB pickNextProcessCPU() {
-		return null;
+	public int pickNextProcessCPU() {
+		int ans = 0;
+		for (int i = 0; i < cpuQueue.size(); i++) {
+			if (cpuQueue.get(i).getPriority() < cpuQueue.get(ans).getPriority()) {
+				ans = i;
+			}
+		}
+		return ans;
 	}
 
 }

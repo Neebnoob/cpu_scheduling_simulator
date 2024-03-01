@@ -44,8 +44,7 @@ public abstract class Simulation {
 		//if queue is not empty and no process at CPU 
 		//add a process from queue to CPU
 		if (!cpuQueue.isEmpty() && this.currCPUProcess == null) {
-			currCPUProcess = cpuQueue.get(0);
-			cpuQueue.remove(0);
+			changeProcess();
 			newProcess();
 		}
 		
@@ -131,11 +130,11 @@ public abstract class Simulation {
 			currCPUProcess = null;
 		//if not move it into CPU and check to see if it is new
 		} else {
-			currCPUProcess = cpuQueue.get(0);
+			int remove = pickNextProcessCPU();
+			currCPUProcess = cpuQueue.get(remove);
 			newProcess();
-			cpuQueue.remove(0);
+			cpuQueue.remove(remove);
 			Processor.execute(currCPUProcess);
-			System.out.println("Current CPU Process: " + currCPUProcess);
 		}
 	}
 	
@@ -192,7 +191,7 @@ public abstract class Simulation {
 		return allProcs.isEmpty() && cpuQueue.isEmpty() && ioQueue.isEmpty() && currCPUProcess == null && currIOProcess == null;
 	}
 
-	public abstract PCB pickNextProcessCPU();
+	public abstract int pickNextProcessCPU();
 
 	//returns first process added to IO queue
 	public PCB pickNextProcessIO() {
@@ -209,7 +208,7 @@ public abstract class Simulation {
 	//Calls on PCB function and updates wait IO time
 	private void updateIOWaitTime() {
 		for (int i = 0; i < ioQueue.size(); i++) {
-			ioQueue.get(i).setWaitTime(ioQueue.get(i).getWaitIOTime() + 1);
+			ioQueue.get(i).setWaitIOTime(ioQueue.get(i).getWaitIOTime() + 1);
 		}
 	}
 	
@@ -302,6 +301,20 @@ public abstract class Simulation {
 		} else {
 			System.out.print("\n");
 		}
+	}
+	
+	//prints result for average wait time and turn around time
+	public void getResults() {
+		int turnAround = 0;
+		int waitTime = 0;
+		for (int i = 0; i < finishedProcs.size(); i++) {
+			PCB temp = finishedProcs.get(i);
+			turnAround += temp.getFinishTime() - Integer.parseInt(temp.getArrivalTime());
+			waitTime += temp.getWaitTime();
+		}
+		
+		System.out.println("Average turn around time: " + (double)(turnAround / finishedProcs.size()));
+		System.out.println("Average wait time: " + (double)(waitTime / finishedProcs.size()));
 	}
 
 }
