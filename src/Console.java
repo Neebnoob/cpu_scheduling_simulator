@@ -1,5 +1,6 @@
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -26,6 +27,14 @@ public class Console {
 			System.out.println("Please input the mode you would like the simulation to run\n"
 					+ "FCFS - First come first server\n" + "SJF - Shortest job first\n" + "Priority");
 			Simulation sim = getAlgorithim(scan, simFile);
+			System.out.println("For the simulation please enter a name for the log file that will be created");
+			String userFileName = scan.nextLine();
+			try {
+				sim.createLogFile(userFileName);
+			} catch (FileNotFoundException | UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 			//Used for if user selected manual mode
 			if (mode) {
@@ -51,7 +60,7 @@ public class Console {
 					}
 				}
 			}
-			
+			sim.closeWriter();
 			sim.getResults();
 		}
 

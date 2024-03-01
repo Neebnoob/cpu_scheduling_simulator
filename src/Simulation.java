@@ -1,3 +1,6 @@
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,6 +14,7 @@ public abstract class Simulation {
 	protected PCB currCPUProcess; // current selected process by the CPU scheduler
 	protected PCB currIOProcess; // current selected process by the IO scheduler
 	protected int systemTime; // system time or simulation time steps
+	protected PrintWriter textWriter;
 
 	//constructor
 	public Simulation(List<PCB> queue) {
@@ -37,6 +41,7 @@ public abstract class Simulation {
 				temp.setStatus("Arrived");
 				cpuQueue.add(temp);
 				allProcs.remove(i);
+				textWriter.println(temp.getName() + " is created at " + systemTime);
 				i--;
 			}
 		}
@@ -58,12 +63,15 @@ public abstract class Simulation {
 				if (currCPUProcess.isDone()) {
 					currCPUProcess.setFinishTime(systemTime);
 					currCPUProcess.setStatus("Finished");
+					textWriter.println(currCPUProcess.getName() + " finished at " + systemTime);
 					finishedProcs.add(currCPUProcess);
 					//check to see if CPU queue is empty
 					currCPUProcess = null;
 				//if not done add the process to the IO queue and change its burst mode
 				} else {
 					ioQueue.add(currCPUProcess);
+					textWriter.println(currCPUProcess.getName() + " CPU to IO queue at " + systemTime + "and had a turn around time of " + (currCPUProcess.getFinishTime() - Integer.parseInt(currCPUProcess.getArrivalTime())) + 
+										" it had a wait time of " + currCPUProcess.getWaitTime() + " and a wait io time of " + currCPUProcess.getWaitIOTime());
 					currCPUProcess.setCurrBurst(false);
 					//check to see if CPU queue is empty
 					currCPUProcess = null;
@@ -77,6 +85,7 @@ public abstract class Simulation {
 		//if processor is empty but queue has items add an item from queue into processor
 		if (!ioQueue.isEmpty() && this.currIOProcess == null) {
 			currIOProcess = ioQueue.get(0);
+			textWriter.println(currIOProcess.getName() + " IO queue to IO at " + systemTime);
 			ioQueue.remove(0);
 		}
 		
@@ -87,6 +96,7 @@ public abstract class Simulation {
 			//if so move it back into the CPU queue and increment its burst tracker to know what burst it is on
 			if (currIOProcess.getCurrBurst() == 0) {
 				cpuQueue.add(currIOProcess);
+				textWriter.println(currIOProcess.getName() + " IO to ready queue at " + systemTime);
 				currIOProcess.incrementTracker();
 				currIOProcess.setCurrBurst(true);
 				//if queue is empty do nothing
@@ -95,6 +105,7 @@ public abstract class Simulation {
 					//else take an item from queue and add to Processor
 				} else {
 					currIOProcess = ioQueue.get(0);
+					textWriter.println(currIOProcess.getName() + " IO queue to IO at " + systemTime);
 					ioQueue.remove(0);
 					Processor.execute(currIOProcess);
 					System.out.println("Current IO Process: " + currIOProcess);
@@ -123,6 +134,14 @@ public abstract class Simulation {
 		System.out.println();
 	}
 	
+	public void closeWriter() {
+		textWriter.close();
+	}
+	
+	public void createLogFile(String name) throws FileNotFoundException, UnsupportedEncodingException {
+		this.textWriter = new PrintWriter(name + ".txt", "UTF-8");
+	}
+	
 	//When a process is finished and has to go on to IO
 	private void changeProcess() {
 		//check to see if CPU queue is empty
@@ -132,6 +151,7 @@ public abstract class Simulation {
 		} else {
 			int remove = pickNextProcessCPU();
 			currCPUProcess = cpuQueue.get(remove);
+			textWriter.println(currCPUProcess.getName() + " ready queue to CPU at " + systemTime);
 			newProcess();
 			cpuQueue.remove(remove);
 			Processor.execute(currCPUProcess);
