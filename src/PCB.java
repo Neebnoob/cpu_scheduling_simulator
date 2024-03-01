@@ -31,7 +31,6 @@ public class PCB {
 			this.turnAroundTime = 0; //finishTime - startTime
 			this.waitTime = 0; //time spent in CPU queue
 			this.waitIOTime = 0; //time spend in IO queue
-			this.queueTime = 0;
 			this.status = "Processing"; //Processing -> Arrived -> Started -> Finished
 			this.cpuFlag = true; //true -> CPU .. false -> IO
 		}
@@ -134,7 +133,7 @@ public class PCB {
 		}
 		
 		//returns current burst that is needed at CPU
-		private int getCurrentCPUBurst() {
+		public int getCurrentCPUBurst() {
 			return cpuBursts.get(this.tracker);
 		}
 		
@@ -164,6 +163,7 @@ public class PCB {
 			this.tracker++;
 		}
 		
+		//checks to see if process has completed all bursts
 		public Boolean isDone() {
 			return this.tracker >= this.cpuBursts.size() - 1;
 		}

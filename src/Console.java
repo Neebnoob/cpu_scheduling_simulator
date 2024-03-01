@@ -4,57 +4,98 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Console {
-	
-	//Todo
-	//Add manual and automatic modes
 
 	// Allen's file location -
 	// /Users/uv9380gh/GitClones/cpu_scheduling_simulator/ScenarioFileOne
+	
 	public static void main(String[] args) {
 
+		//runs though the console application until user stops it
 		while (true) {
 			
 			Scanner scan = new Scanner(System.in);
-			System.out.println("Welcome to CPU Scheduling Simulator\n" + 
-						       "Please input Simulation File location");
+			System.out.println("Welcome to CPU Scheduling Simulator\n" + "Please input Simulation File location");
 			ArrayList<PCB> simFile = loadSimulationFile(scan);
-			System.out.println("Please input the speed between 1 and 5\n" + 
-							   "This is the time between frames in seconds");
+			//used for asking users requested speed and calls a function for it
+			System.out.println("Please input the speed between 1 and 5\n" + "This is the time between frames in seconds");
 			int speed = getSpeed(scan);
-			System.out.println("Please input the mode to run simulation\n" + 
-							   "1 - Manual mode and 0 - Automatic mode");
+			//used for asking a users requested mode and calls function for it
+			System.out.println("Please input the mode to run simulation\n" + "1 - Manual mode and 0 - Automatic mode");
 			Boolean mode = getMode(scan);
-			System.out.println("Please input the mode you would like the simulation to run\n" + 
-							   "FCFS - First come first server\n" +
-							   "SJF - Shortest job first\n" + 
-							   "Priority");
+			//used for asking a users requested scheduling algorithm and calls function for it
+			System.out.println("Please input the mode you would like the simulation to run\n"
+					+ "FCFS - First come first server\n" + "SJF - Shortest job first\n" + "Priority");
 			Simulation sim = getAlgorithim(scan, simFile);
 			
-			while (!sim.scheduleDone()) {
-				sim.schedule();
-				try {
-					Thread.sleep(speed * 1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+			//Used for if user selected manual mode
+			if (mode) {
+				while (!sim.scheduleDone()) {
+					sim.schedule();
+					try {
+						Thread.sleep(speed * 1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+					//waits for user to type next before moving on
+					waitForNext(scan);
+				}
+				//used for automatic mode
+			} else {
+				while (!sim.scheduleDone()) {
+					sim.schedule();
+					try {
+						//sets sleep time based on user input of between 1 and 5 seconds per frame
+						Thread.sleep(speed * 1000);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
 				}
 			}
-			
+
 		}
 
 	}
 	
+	//function to wait for user to type next in manual mode
+	private static void waitForNext(Scanner scan) {
+		System.out.println("Type Next to move on");
+		Boolean flag = true;
+		scan.nextLine();
+		while (flag) {
+			//Throws error if another data type is entered or if user spells next wrong
+			try {
+				String val= scan.nextLine();
+				//not case sensitive
+				if (val.toLowerCase().equals("next"))
+					flag = false;
+				else
+					throw new IllegalArgumentException();
+			} catch (IllegalArgumentException iae) {
+				System.out.println("This is invalid. Please type next");
+			} catch (Exception e) {
+				System.out.println("This is invalid. Please type Next");
+			}
+		}
+	}
+
+	//used to create the desired algorithms object
 	private static Simulation getAlgorithim(Scanner scan, ArrayList<PCB> simFile) {
 		Boolean flag = true;
 		String algo = "";
 		scan.nextLine();
 		while (flag) {
+			//Throws error if another data type is entered or if user spells an option wrong
 			try {
 				algo = scan.nextLine();
-				if (algo.toUpperCase().equals("FCFS")) return new FCFS(simFile);
-				else if (algo.toUpperCase().equals("SJF")) return new SJF(simFile);
-				else if (algo.toUpperCase().equals("PRIORITY")) return new Priority(simFile);
-				else throw new IllegalArgumentException();
+				//not case sensitive
+				if (algo.toUpperCase().equals("FCFS"))
+					return new FCFS(simFile);
+				else if (algo.toUpperCase().equals("SJF"))
+					return new SJF(simFile);
+				else if (algo.toUpperCase().equals("PRIORITY"))
+					return new Priority(simFile);
+				else
+					throw new IllegalArgumentException();
 			} catch (IllegalArgumentException iae) {
 				System.out.println("Please enter a valid input");
 			} catch (Exception e) {
@@ -63,24 +104,24 @@ public class Console {
 		}
 		return null;
 	}
-	
-	//returns mode user wishes to have simulation run in
-	//true -> Manual
-	//false -> Automatic
+
+	// returns mode user wishes to have simulation run in
+	// true -> Manual
+	// false -> Automatic
 	private static Boolean getMode(Scanner scan) {
 		Boolean flag = true;
 		int val = -1;
 		while (flag) {
+			//Throws error if another data type is entered or if user tries a number not allowed
 			try {
 				val = scan.nextInt();
-				if (val > 1 || val < 0) throw new IllegalArgumentException();
+				if (val > 1 || val < 0)
+					throw new IllegalArgumentException();
 				flag = false;
 			} catch (IllegalArgumentException iae) {
-				System.out.println("This is not a valid number\n" + 
-								   "Try again");
+				System.out.println("This is not a valid number\n" + "Try again");
 			} catch (Exception e) {
-				System.out.println("This is not a valid number\n" + 
-						   		   "Try again");
+				System.out.println("This is not a valid number\n" + "Try again");
 			}
 		}
 		if (val == 1) {
@@ -89,22 +130,22 @@ public class Console {
 			return false;
 		}
 	}
-	
-	//returns speed from user input
+
+	// returns speed from user input
 	private static int getSpeed(Scanner scan) {
 		Boolean flag = true;
 		int val = -1;
 		while (flag) {
+			//Throws error if another data type is entered or if user tries a number not allowed
 			try {
 				val = scan.nextInt();
-				if (val <= 0 || val > 5) throw new IllegalArgumentException();
+				if (val <= -1 || val > 5)
+					throw new IllegalArgumentException();
 				flag = false;
 			} catch (IllegalArgumentException iae) {
-				System.out.println("This is not a valid number\n" + 
-								   "Try again");
+				System.out.println("This is not a valid number\n" + "Try again");
 			} catch (Exception e) {
-				System.out.println("This is not a valid number\n" + 
-						   		   "Try again");
+				System.out.println("This is not a valid number\n" + "Try again");
 			}
 		}
 		return val;
@@ -144,7 +185,6 @@ public class Console {
 				// close scanner after reading simulation file
 				sc.close();
 			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
 				System.out.println("Plase input a valid file location");
 			}
 			;
@@ -157,7 +197,7 @@ public class Console {
 	}
 
 	// Quick sort main method
-	private static void quickSort(ArrayList<PCB> processesList, int low, int high) {
+	public static void quickSort(ArrayList<PCB> processesList, int low, int high) {
 
 		if (low < high) {
 
