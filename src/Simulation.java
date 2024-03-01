@@ -60,13 +60,13 @@ public abstract class Simulation {
 					currCPUProcess.setStatus("Finished");
 					finishedProcs.add(currCPUProcess);
 					//check to see if CPU queue is empty
-					changeProcess();
+					currCPUProcess = null;
 				//if not done add the process to the IO queue and change its burst mode
 				} else {
 					ioQueue.add(currCPUProcess);
 					currCPUProcess.setCurrBurst(false);
 					//check to see if CPU queue is empty
-					changeProcess();
+					currCPUProcess = null;
 				}
 			//if process is not done execute and take 1 from its current burst
 			} else {
