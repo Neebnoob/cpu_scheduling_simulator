@@ -335,6 +335,7 @@ public abstract class Simulation {
 		
 		System.out.println("Average turn around time: " + (double)(turnAround / finishedProcs.size()));
 		System.out.println("Average wait time: " + (double)(waitTime / finishedProcs.size()));
+		System.out.print("\n\n\n");
 	}
 
 }
