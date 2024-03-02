@@ -74,7 +74,7 @@ public class Console {
 			//Throws error if another data type is entered or if user spells next wrong
 			try {
 				String val= scan.nextLine();
-				//not case sensitive
+				//not case sensitive 
 				if (val.toLowerCase().equals("next"))
 					flag = false;
 				else
