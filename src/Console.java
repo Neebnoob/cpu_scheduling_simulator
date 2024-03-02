@@ -70,7 +70,6 @@ public class Console {
 	private static void waitForNext(Scanner scan) {
 		System.out.println("Type Next to move on");
 		Boolean flag = true;
-		scan.nextLine();
 		while (flag) {
 			//Throws error if another data type is entered or if user spells next wrong
 			try {
